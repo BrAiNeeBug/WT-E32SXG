@@ -132,6 +132,8 @@ sensor:
     id: meter1_total
     unit_of_measurement: "m³"
     accuracy_decimals: 2
+    device_class: water
+    state_class: total_increasing
     on_value:
       then:
         - component.update: difference_total
@@ -165,6 +167,8 @@ sensor:
     id: meter2_total
     unit_of_measurement: "m³"
     accuracy_decimals: 2
+    device_class: water
+    state_class: total_increasing
     on_value:
       then:
         - component.update: difference_total
