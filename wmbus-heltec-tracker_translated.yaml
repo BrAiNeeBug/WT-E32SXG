@@ -1,3 +1,4 @@
+#note: this is a translated ai-version of WT-E32SXG(GER) > WT-E32SXG(ENG) untested!
 esphome:
   comment: "Ver.2.0.0.3"
   name: "meter-htt11"
