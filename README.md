@@ -1,5 +1,4 @@
-# wM-Bus Water Meter Gateway (Heltec Wireless Tracker / SX1262)
-# Note:This is an AI-Converted private Project it is not being tested ! I should run and work but its translated so maybe it needs some tuning ;)
+# SX1262 wM-Bus Water Meter Gateway
 
 ESPHome firmware that receives encrypted [wM-Bus](https://en.wikipedia.org/wiki/Meter-Bus) telegrams from water meters (tested with Diehl **Hydrus**) over an SX1262 radio, decodes them via the [esphome-components](https://github.com/SzczepanLeon/esphome-components) external component, and exposes the readings in Home Assistant. Includes a small ST7735 display showing live totals.
 
