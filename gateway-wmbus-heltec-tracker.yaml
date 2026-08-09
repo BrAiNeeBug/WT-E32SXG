@@ -1,5 +1,5 @@
 esphome:
-  comment: "Ver.2.0.0.2"
+  comment: "Ver.2.0.0.3"
   name: "meter-htt11"
   friendly_name: "WT-E32SXG (2.0)"
   on_boot:
