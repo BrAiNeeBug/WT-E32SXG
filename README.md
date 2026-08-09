@@ -28,15 +28,7 @@ You need, per meter:
 
 ### 2. Secrets
 
-Copy the template and fill in your own values:
-
-```bash
-cp secrets.yaml.example secrets.yaml
-```
-
-Edit `secrets.yaml` with your WiFi credentials, an API encryption key (generate one, e.g. `openssl rand -base64 32`), an OTA password, and your meter IDs/keys.
-
-**`secrets.yaml` must never be committed** — it's already excluded via `.gitignore` (see below).
+Enter your meter IDs and AES decryption keys in `secrets.yaml`.
 
 ### 3. Adjust the config
 
@@ -44,7 +36,7 @@ In `gateway-wmbus-heltec-tracker.yaml`:
 - Set your radio `frequency` if your region/meters use something other than `868.95MHz`
 - Rename the `sensor:` entries (`Meter 1`, `Meter 2`, `Difference Total`) to whatever makes sense for your setup
 - If you only have one meter, delete the second `wmbus_meter` block and its sensors, and the `difference_total` template sensor
-- For more than two meters, duplicate a `wmbus_meter` block + its `sensor:` entries and add the corresponding keys to `secrets.yaml`
+- For more than two meters, duplicate a `wmbus_meter` block + its `sensor:` entries
 
 ### 4. Flash
 
@@ -58,9 +50,11 @@ First flash needs a USB connection; after that, OTA updates work via the `ota:` 
 
 The device auto-integrates via the ESPHome integration once it's on your network (native API, encrypted via `api_key`).
 
-## .gitignore
+## Local files
 
-```
+Your local `secrets.yaml` should not be committed to the repository. Make sure it is listed in `.gitignore`:
+
+```gitignore
 secrets.yaml
 .esphome/
 ```
