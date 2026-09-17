@@ -4,7 +4,7 @@
 #2.0.0.7 changed displaydriver back to ili9xxx (blackscreen!?)
 #2.0.0.8 changed wifi powersave to high
 substitutions:
-  localdomain: ".fritz.box"
+  localdomain: ".local"
 esphome:
   comment: "Ver.2.0.0.8"
   name: "meter-htt11"
