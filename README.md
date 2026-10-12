@@ -1,3 +1,8 @@
+#last changes
+#2.0.0.4-5 set webserver to version 3 HA-Style, new display driver mipi_spi 31.08.2026
+#2.0.0.6 new priv_api_key, time set to ntp, added wifi sensors
+#2.0.0.7 changed displaydriver back to ili9xxx (blackscreen!?)
+#2.0.0.8 changed wifi powersave to high
 # SX1262 wM-Bus Water Meter Gateway
 
 ESPHome firmware that receives encrypted [wM-Bus](https://en.wikipedia.org/wiki/Meter-Bus) telegrams from water meters (tested with Diehl **Hydrus**) over an SX1262 radio, decodes them via the [esphome-components](https://github.com/SzczepanLeon/esphome-components) external component, and exposes the readings in Home Assistant. Includes a small ST7735 display showing live totals.
