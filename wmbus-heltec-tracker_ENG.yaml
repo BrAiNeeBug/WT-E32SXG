@@ -1,12 +1,14 @@
-#last changes
-#2.0.0.4-5 set webserver to version 3 HA-Style, new display driver mipi_spi 31.08.2026
-#2.0.0.6 new priv_api_key, time set to ntp, added wifi sensors
-#2.0.0.7 changed displaydriver back to ili9xxx (blackscreen!?)
-#2.0.0.8 changed wifi powersave to high
+# Changelog
+# 2.0.0.4-5 set webserver to version 3 (HA style), new display driver mipi_spi 31.08.2026
+# 2.0.0.6 new priv_api_key, time set to ntp, added wifi sensors
+# 2.0.0.7 changed display driver back to ili9xxx (black screen!?)
+# 2.0.0.8 changed wifi power save to high
+# 2.0.0.9 changed OTA updates to encryption
+# 2.0.1.0 removed webserver OTA
 substitutions:
-  localdomain: ".local"
+  localdomain: ".fritz.box"
 esphome:
-  comment: "Ver.2.0.0.8"
+  comment: "Ver.2.0.1.0"
   name: "meter-htt11"
   friendly_name: "WT-E32SXG (2.0)"
   on_boot:
@@ -15,7 +17,7 @@ esphome:
         - script.execute: display_wake
     - priority: -50
       then:
-        # Runtime start values for the log tags (ceiling is VERY_VERBOSE, see logger: below)
+        # Runtime start values for the log tags (ceiling is VERY_VERBOSE, see logger:)
         - lambda: |-
             id(logger_id)->set_log_level("wmbus", 0);        // NONE
             id(logger_id)->set_log_level("wmbusmeters", 0);  // NONE
@@ -25,14 +27,14 @@ esp32:
   board: esp32-s3-devkitc-1
   framework:
     type: esp-idf
-  #toolchain: platformio #debug 16.07.2026 can be removed again later
+  #toolchain: platformio # debug 16.07.2026, can be removed later
 
 api:
   encryption:
     key: !secret meter_htt11__encryption_key
 ota:
   - platform: esphome
-    password: !secret ota_password
+    encryption:
 
 wifi:
   ssid: !secret wifi_ssid
@@ -48,10 +50,10 @@ captive_portal:
 
 logger:
   id: logger_id
-  level: VERY_VERBOSE       # Compile-time ceiling: allows full range in the web GUI switch
-  initial_level: NONE       # Global runtime start value: fully quiet after boot
+  level: VERY_VERBOSE       # Compile-time ceiling: allows the full range in the web GUI selector
+  initial_level: NONE       # Global runtime start value: completely silent after boot
   logs:
-    wmbus: VERY_VERBOSE     # Ceiling for the tag, actual start value comes from on_boot above
+    wmbus: VERY_VERBOSE     # Ceiling for the tag, the actual start value is set in on_boot above
     wmbusmeters: VERY_VERBOSE
     packet: VERY_VERBOSE
   runtime_tag_levels: true
@@ -63,7 +65,7 @@ select:
     on_value:
       then:
         - lambda: |-
-            int lvl = 1; // Fallback ERROR
+            int lvl = 1; // Fallback: ERROR
             if (x == "NONE") lvl = 0;
             else if (x == "ERROR") lvl = 1;
             else if (x == "WARN") lvl = 2;
@@ -80,9 +82,10 @@ web_server:
   port: 80
   version: 3
   auth:
-    password: !secret ota_password
+    password: !secret webgui_password
     username: admin
     type: digest
+  ota: false
 time:
   - platform: sntp
     id: timesrc
@@ -92,7 +95,7 @@ external_components:
     components: [wmbus_radio, wmbus_common, wmbus_meter]
 
 #############################################
-########## SX1262 wM-Bus reception ###########
+########## SX1262 wM-Bus receiver ###########
 #############################################
 
 spi:
@@ -128,7 +131,7 @@ wmbus_meter:
     key: !secret meter15_key
 
 sensor:
-  # Main water
+  # Main water meter
   - platform: wmbus_meter
     parent_id: meter99
     field: total_m3
@@ -145,7 +148,7 @@ sensor:
   - platform: wmbus_meter
     parent_id: meter99
     field: total_at_date_m3
-    name: "Main Water Reference Reading"
+    name: "Main Water Billing Date Value"
     unit_of_measurement: "m³"
     entity_category: diagnostic
     accuracy_decimals: 2
@@ -163,7 +166,7 @@ sensor:
     name: "Main Water RSSI"
     entity_category: diagnostic
 
-  # Garden water
+  # Garden water meter
   - platform: wmbus_meter
     parent_id: meter15
     field: total_m3
@@ -180,7 +183,7 @@ sensor:
   - platform: wmbus_meter
     parent_id: meter15
     field: total_at_date_m3
-    name: "Garden Water Reference Reading"
+    name: "Garden Water Billing Date Value"
     unit_of_measurement: "m³"
     entity_category: diagnostic
     accuracy_decimals: 2
@@ -198,6 +201,7 @@ sensor:
     name: "Garden Water RSSI"
     entity_category: diagnostic
 
+  # Wastewater = main water minus garden water (garden water does not go into the sewer)
   - platform: template
     name: "Wastewater"
     id: wastewater_total
@@ -209,7 +213,7 @@ sensor:
     lambda: |-
       return id(main_water_total).state - id(garden_water_total).state;
 
-  # other sensors
+  # Other sensors
   - platform: wifi_signal
     name: "WiFiSignal"
     id: wifi_signal_rssi
@@ -251,10 +255,10 @@ text_sensor:
       disabled_by_default: true
 
 #############################################
-############ Display (ST7735) ################
+############ Display (ST7735) ###############
 #############################################
 
-# Display needs 2 GPIOs HIGH to power on
+# The display needs 2 GPIOs set HIGH to power on
 switch:
   - platform: gpio
     pin: GPIO21        # LED_K_Pin
@@ -308,12 +312,12 @@ display:
     data_rate: 40MHz
     auto_clear_enabled: true
     lambda: |-
-      it.printf(0,  0, id(my_font), id(blue),  "Main: %.2f m3", id(main_water_total).state);
-      it.printf(0, 26, id(my_font), id(green), "Grdn: %.2f m3", id(garden_water_total).state);
-      it.printf(0, 52, id(my_font), id(white), "Wste: %.2f m3", id(wastewater_total).state);
+      it.printf(0,  0, id(my_font), id(blue),  "Mn:  %.2f m3", id(main_water_total).state);
+      it.printf(0, 26, id(my_font), id(green), "Gdn: %.2f m3", id(garden_water_total).state);
+      it.printf(0, 52, id(my_font), id(white), "Wst: %.2f m3", id(wastewater_total).state);
 
 #############################################
-###### Display auto-off + user button ########
+###### Display auto-off + user button #######
 #############################################
 
 binary_sensor:
