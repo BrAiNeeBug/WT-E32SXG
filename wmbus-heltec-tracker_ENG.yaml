@@ -1,4 +1,3 @@
-#Note: from brainee: this ENG file is AI translated and NOT tested if its broken tell me please.
 # Changelog
 # 2.0.0.4-5 set webserver to version 3 (HA style), new display driver mipi_spi 31.08.2026
 # 2.0.0.6 new priv_api_key, time set to ntp, added wifi sensors
@@ -6,10 +5,11 @@
 # 2.0.0.8 changed wifi power save to high
 # 2.0.0.9 changed OTA updates to encryption
 # 2.0.1.0 removed webserver OTA
+# 2.0.1.1 switched displaydriver to mipi_spi
 substitutions:
   localdomain: ".fritz.box"
 esphome:
-  comment: "Ver.2.0.1.0"
+  comment: "Ver.2.0.1.1"
   name: "meter-htt11"
   friendly_name: "WT-E32SXG (2.0)"
   on_boot:
@@ -292,30 +292,31 @@ color:
     blue: 40%
 
 display:
-  - platform: ili9xxx
+  - platform: mipi_spi
     spi_id: spi_st7735
     model: st7735
     id: st7735
     dc_pin: GPIO40
     reset_pin: GPIO39
     cs_pin: GPIO38
+    data_rate: 40MHz
     color_order: bgr
     invert_colors: true
     dimensions:
-      width: 160
-      height: 80
-      offset_width: 1
-      offset_height: 26
-    transform:
-      swap_xy: true
-      mirror_y: false
-      mirror_x: true
-    data_rate: 40MHz
+      width: 80
+      height: 160
+      offset_width: 26
+      offset_height: 1
+      pad_width: 26
+      pad_height: 1
+    rotation: 90°
     auto_clear_enabled: true
     lambda: |-
-      it.printf(0,  0, id(my_font), id(blue),  "Mn:  %.2f m3", id(main_water_total).state);
-      it.printf(0, 26, id(my_font), id(green), "Gdn: %.2f m3", id(garden_water_total).state);
-      it.printf(0, 52, id(my_font), id(white), "Wst: %.2f m3", id(wastewater_total).state);
+      const int dx = 3;  // left padding
+      const int dy = 1;  // top padding
+      it.printf(dx, dy,      id(my_font), id(blue),  "Mn:  %.2f m3", id(main_water_total).state);
+      it.printf(dx, dy + 26, id(my_font), id(green), "Gdn: %.2f m3", id(garden_water_total).state);
+      it.printf(dx, dy + 52, id(my_font), id(white), "Wst: %.2f m3", id(wastewater_total).state);
 
 #############################################
 ###### Display auto-off + user button #######
