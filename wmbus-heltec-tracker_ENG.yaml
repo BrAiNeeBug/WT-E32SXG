@@ -1,3 +1,4 @@
+#Note: from brainee: this ENG file is AI translated and NOT tested if its broken tell me please.
 # Changelog
 # 2.0.0.4-5 set webserver to version 3 (HA style), new display driver mipi_spi 31.08.2026
 # 2.0.0.6 new priv_api_key, time set to ntp, added wifi sensors
