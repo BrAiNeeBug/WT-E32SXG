@@ -90,3 +90,7 @@ secrets.yaml
 - `rx_gain: POWER_SAVING` trades a bit of sensitivity for lower power draw; switch to `BOOSTED` if you're having reception issues and power isn't a concern.
 - The display uses the `mipi_spi` driver. The visible 80x160 panel sits inside the ST7735's larger 132x162 memory, so `offset_*` and `pad_*` values are required for a clean picture (no garbage pixels at the edges). Both the display backlight pin (GPIO21) and the display power pin (GPIO3) must be driven HIGH, which the config does at boot and on wake.
 - Older ESPHome versions may not support `mipi_spi` or the `pad_width` / `pad_height` options. In that case use the deprecated `ili9xxx` platform with `swap_xy` / `mirror_x` and offsets 1 / 26 instead.
+
+## Display
+<img width="768" height="432" alt="image" src="https://github.com/user-attachments/assets/2542fe67-bebf-4a71-bfb5-64f51601acfd" />
+
