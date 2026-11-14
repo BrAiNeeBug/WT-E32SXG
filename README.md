@@ -4,7 +4,7 @@ ESPHome firmware that receives encrypted [wM-Bus](https://en.wikipedia.org/wiki/
 
 ## Hardware
 
-- **Heltec Wireless Tracker** (ESP32-S3 + SX1262 + 0.96" ST7735 display) — or any ESP32-S3 board wired to an SX1262 module
+- **Heltec Wireless Tracker** (ESP32-S3 + SX1262 + 0.96" ST7735 display), tested on **V1.1** and **V1.2** — or any ESP32-S3 board wired to an SX1262 module
 - ST7735 SPI display (160x80), wired via a second SPI bus
 - Optional: physical button on GPIO0 to wake the display (the onboard user button on the Tracker)
 
