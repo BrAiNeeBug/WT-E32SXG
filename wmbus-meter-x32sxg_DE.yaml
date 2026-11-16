@@ -1,10 +1,11 @@
 #last changes
 #1.0.0.0 Migriert auf Seeed Studio XIAO ESP32S3 & Wio-SX1262 (Ohne Display)
+#1.0.0.1 Radio-Pins korrigiert (B2B-Connector des Wio-SX1262), RXEN (GPIO38) wird auf HIGH gesetzt
 substitutions:
   localdomain: ".fritz.box"
 
 esphome:
-  comment: "Ver.1.0.0.0"
+  comment: "Ver.1.0.0.1"
   name: "meter-x32sxg"
   friendly_name: "WX-E32SXG (1.0)"
   on_boot:
@@ -93,21 +94,30 @@ external_components:
 
 spi:
   - id: spi_sx1262
-    clk_pin: GPIO7    # SCK (D7)
-    mosi_pin: GPIO9   # MOSI (D9)
-    miso_pin: GPIO8   # MISO (D8)
+    clk_pin: GPIO7    # SCK
+    mosi_pin: GPIO9   # MOSI
+    miso_pin: GPIO8   # MISO
+
+# Wio-SX1262: RX-Pfad des Antennenschalters muss dauerhaft HIGH sein.
+# (TX wird über DIO2 geschaltet, das erledigt rf_switch: true)
+switch:
+  - platform: gpio
+    pin: GPIO38       # LORA RXEN
+    id: lora_rxen
+    restore_mode: ALWAYS_ON
+    internal: true
 
 wmbus_radio:
   radio_type: SX1262
   spi_id: spi_sx1262
-  cs_pin: GPIO43      # NSS (D6 / GPIO43 auf XIAO ESP32S3)
-  reset_pin: GPIO5    # RST (D5)
-  irq_pin: GPIO3      # DIO1 (D3)
-  busy_pin: GPIO4     # BUSY (D4)
+  cs_pin: GPIO41      # NSS  (B2B-Connector)
+  reset_pin: GPIO42   # RST  (B2B-Connector)
+  irq_pin: GPIO39     # DIO1 (B2B-Connector)
+  busy_pin: GPIO40    # BUSY (B2B-Connector)
   frequency: "868.95MHz"
-  rx_gain: POWER_SAVING
-  rf_switch: false    # Das Wio-SX1262 Kit benötigt standardmäßig keinen dedizierten RF-Switch Pin in ESPHome
-  has_tcxo: true
+  rx_gain: POWER_SAVING   # zum Testen ggf. auf die Boost-Variante stellen, falls die Komponente sie anbietet
+  rf_switch: true     # DIO2 steuert den TX-Pfad des Antennenschalters
+  has_tcxo: true      # TCXO hängt an DIO3
 
 wmbus_meter:
   - id: meter99
