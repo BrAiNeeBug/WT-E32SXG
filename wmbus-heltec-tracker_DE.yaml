@@ -7,8 +7,9 @@
 # 2.0.1.0 removed webserver OTA
 # 2.0.1.1 switched displaydriver to mipi_spi
 # 2.0.1.2 added GitHub link (comment, project, dashboard_import)
+# 2.0.1.3 added wm-bus stuff private supported fork
 substitutions:
-  version: "2.0.1.2"
+  version: "2.0.1.3"
   localdomain: ".fritz.box"
 esphome:
   comment: "Ver.${version} - github.com/BrAiNeeBug/WT-E32SXG"
@@ -100,7 +101,7 @@ time:
     id: timesrc
 
 external_components:
-  - source: github://SzczepanLeon/esphome-components@main
+  - source: github://BrAiNeeBug/esphome-components@main
     components: [wmbus_radio, wmbus_common, wmbus_meter]
 
 #############################################
