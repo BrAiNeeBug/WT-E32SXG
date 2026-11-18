@@ -1,11 +1,16 @@
 #last changes
 #1.0.0.0 Migriert auf Seeed Studio XIAO ESP32S3 & Wio-SX1262 (Ohne Display)
 #1.0.0.1 Radio-Pins korrigiert (B2B-Connector des Wio-SX1262), RXEN (GPIO38) wird auf HIGH gesetzt
+#1.0.0.2 added GitHub link (comment, project, dashboard_import)
 substitutions:
+  version: "1.0.0.2"
   localdomain: ".fritz.box"
 
 esphome:
-  comment: "Ver.1.0.0.1"
+  comment: "Ver.${version} - github.com/BrAiNeeBug/WT-E32SXG"
+  project:
+    name: "BrAiNeeBug.wmbus_meter_x32sxg"
+    version: "${version}"
   name: "meter-x32sxg"
   friendly_name: "WX-E32SXG (1.0)"
   on_boot:
@@ -16,6 +21,9 @@ esphome:
             id(logger_id)->set_log_level("wmbus", 0);        // NONE
             id(logger_id)->set_log_level("wmbusmeters", 0);  // NONE
             id(logger_id)->set_log_level("packet", 0);       // NONE
+
+dashboard_import:
+  package_import_url: github://BrAiNeeBug/WT-E32SXG/wmbus-meter-x32sxg_DE.yaml@main
 
 esp32:
   board: esp32-s3-devkitc-1
