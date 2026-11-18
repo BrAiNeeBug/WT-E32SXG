@@ -6,10 +6,15 @@
 # 2.0.0.9 changed OTA updates to encryption
 # 2.0.1.0 removed webserver OTA
 # 2.0.1.1 switched displaydriver to mipi_spi
+# 2.0.1.2 added GitHub link (comment, project, dashboard_import)
 substitutions:
+  version: "2.0.1.2"
   localdomain: ".fritz.box"
 esphome:
-  comment: "Ver.2.0.1.1"
+  comment: "Ver.${version} - github.com/BrAiNeeBug/WT-E32SXG"
+  project:
+    name: "BrAiNeeBug.wmbus_heltec_tracker"
+    version: "${version}"
   name: "meter-htt11"
   friendly_name: "WT-E32SXG (2.0)"
   on_boot:
@@ -23,6 +28,9 @@ esphome:
             id(logger_id)->set_log_level("wmbus", 0);        // NONE
             id(logger_id)->set_log_level("wmbusmeters", 0);  // NONE
             id(logger_id)->set_log_level("packet", 0);       // NONE
+
+dashboard_import:
+  package_import_url: github://BrAiNeeBug/WT-E32SXG/wmbus-heltec-tracker_ENG.yaml@main
 
 esp32:
   board: esp32-s3-devkitc-1
