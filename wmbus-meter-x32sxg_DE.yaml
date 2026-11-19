@@ -1,8 +1,8 @@
-#last changes
-#1.0.0.0 Migriert auf Seeed Studio XIAO ESP32S3 & Wio-SX1262 (Ohne Display)
-#1.0.0.1 Radio-Pins korrigiert (B2B-Connector des Wio-SX1262), RXEN (GPIO38) wird auf HIGH gesetzt
-#1.0.0.2 added GitHub link (comment, project, dashboard_import)
-#1.0.0.3 added wm-bus stuff private supported fork
+# last changes
+# 1.0.0.0 Migriert auf Seeed Studio XIAO ESP32S3 & Wio-SX1262 (Ohne Display)
+# 1.0.0.1 Radio-Pins korrigiert (B2B-Connector des Wio-SX1262), RXEN (GPIO38) wird auf HIGH gesetzt
+# 1.0.0.2 added GitHub link (comment, project, dashboard_import)
+# 1.0.0.3 added wm-bus stuff private supported fork
 substitutions:
   version: "1.0.0.3"
   localdomain: ".fritz.box"
