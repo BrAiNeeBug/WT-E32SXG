@@ -1,6 +1,6 @@
 # SX1262 wM-Bus Watermeter Gateway
 
-ESPHome firmware that receives encrypted [wM-Bus](https://en.wikipedia.org/wiki/Meter-Bus) telegrams from water meters (tested with Diehl **Hydrus**) over an SX1262 radio, decodes them via the [esphome-components](https://github.com/SzczepanLeon/esphome-components) external component, and exposes the readings in Home Assistant. Supports both the **Heltec Wireless Tracker** with its onboard display and the **Seeed Studio XIAO ESP32S3 + Wio-SX1262** without a display.
+ESPHome firmware that receives encrypted [wM-Bus](https://en.wikipedia.org/wiki/Meter-Bus) telegrams from water meters (tested with Diehl **Hydrus**) over an SX1262 radio, decodes them via the (currentyl forked) [esphome-components](https://github.com/SzczepanLeon/esphome-components) external component, and exposes the readings in Home Assistant. Supports both the **Heltec Wireless Tracker** with its onboard display and the **Seeed Studio XIAO ESP32S3 + Wio-SX1262** without a display.
 
 ## Hardware
 
