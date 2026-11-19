@@ -4,7 +4,7 @@ ESPHome firmware that receives encrypted [wM-Bus](https://en.wikipedia.org/wiki/
 
 ## Hardware
 
-Two hardware variants are currently supported:
+Two hardware variants are currently supported*²:
 
 - **Heltec Wireless Tracker** (ESP32-S3 + SX1262 + 0.96" ST7735 display), tested on **V1.1** and **V1.2**. The display shows live meter totals and can be switched on with the onboard button.
 - **Seeed Studio XIAO ESP32S3 + Wio-SX1262**. This compact variant has **no display**; it receives wM-Bus telegrams and makes the meter data available in Home Assistant.
@@ -98,3 +98,4 @@ secrets.yaml
 ## Display
 <img width="768" height="432" alt="image" src="https://github.com/user-attachments/assets/2542fe67-bebf-4a71-bfb5-64f51601acfd" />
 
+*2=since 11.2026 only the "Seeed Studio XIAO ESP32S3 + Wio-SX1262" is fully tested in usecase because of switching to Dirsplayless device so if something not working on the other "supported" devices please tell me..
